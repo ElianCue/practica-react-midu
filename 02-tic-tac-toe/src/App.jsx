@@ -1,77 +1,52 @@
-import { useState } from "react"
-
-const TURNS = {
-  X: 'x',
-  O: 'o'
-}
-
-
-const Square = ({children, isSelected, updateBoard, index})=>{
-
-  const className = `square ${isSelected ? 'is-selected' : ''}`
-
-  const handleClick = () =>{
-    updateBoard(index)
-  }
-
-  return(
-    <div onClick={handleClick} className={className}>
-      {children}
-    </div>
-  )
-}
+import useTicTacToe from './hooks/useTicTacToe';
+import Square from './components/Square';
+import ModalWinner from './components/ModalWinner';
+import SectionTurn from './components/SectionTurn';
+import ModalStartGame from './components/ModalStartGame';
+import { GAME_MODE, TURNS } from './constants';
+import { useState } from 'react';
 
 function App() {
-  
-  const [board, setBoard ] = useState(
-    Array(9).fill(null)
-  )
+  const { board, turn, winner, updateBoard, resetGame } = useTicTacToe();
+  const [selectGame, setSelectGame] = useState(GAME_MODE.PLAY);
+  const [showModal, setShowModal] = useState(true);
 
-  const [turn, setTurn] = useState(TURNS.X)
+  const handleStartGame = (gameMode) => {
+    setSelectGame(gameMode);
+    setShowModal(false);
+  };
 
-  const updateBoard = (index) =>{
-    const newBoard = [...board]
-    newBoard[index] = turn
-    setBoard(newBoard)
-
-    const newTurn = turn == TURNS.X ? TURNS.O :TURNS.X
-    setTurn(newTurn)
-  }
-  
   return (
     <main className="board">
       <h1>Tic tac toe</h1>
-      <section className="game">
-        {
-          board.map((_, index) => {
-            return (
+      {showModal ? (
+        <ModalStartGame
+          selectGame={selectGame}
+          newSelectGame={handleStartGame}
+        />
+      ) : (
+        <>
+          <button onClick={resetGame}>Reset Game</button>
+          <section className="game">
+            {board.map((value, index) => (
               <div className="cell" key={index}>
                 <span className="cell__content">
-                  <Square  
-                    key={index}
-                    index={index}
-                    updateBoard={updateBoard}
-                  >
-                   {board[index]}
+                  <Square index={index} updateBoard={updateBoard}>
+                    {value}
                   </Square>
                 </span>
               </div>
-            )
-          })
-        }
-      </section>
-
-      <section className="turn">
-        <Square isSelected={turn == TURNS.X}>
-          {TURNS.X}
-        </Square>
-
-        <Square isSelected={turn == TURNS.O}>
-          {TURNS.O}
-        </Square>
-      </section>
+            ))}
+          </section>
+          {winner !== null ? (
+            <ModalWinner handleResetGame={resetGame} winner={winner} />
+          ) : (
+            <SectionTurn TURNS={TURNS} turn={turn} />
+          )}
+        </>
+      )}
     </main>
-  )
+  );
 }
 
-export default App
+export default App;

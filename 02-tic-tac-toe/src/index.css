@@ -23,6 +23,35 @@ body {
   min-height: 100vh;
 }
 
+
+.container{
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background-color: #52524ed2;
+  z-index: 1;
+  place-content: center;
+  display: grid;
+  padding: 20px;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50vh;
+}
+.modal__text{
+  padding: 20px;
+  width: 100%;
+  font-size: 1;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.button_container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -88,13 +117,14 @@ body {
 
 .winner {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  margin: 0 auto;
+  justify-content: center;
+  top: 0; left: 0; 
   display: grid;
   place-items: center;
-  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .winner .text {
