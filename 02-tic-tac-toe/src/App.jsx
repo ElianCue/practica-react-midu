@@ -2,31 +2,26 @@ import useTicTacToe from './hooks/useTicTacToe';
 import Square from './components/Square';
 import ModalWinner from './components/ModalWinner';
 import SectionTurn from './components/SectionTurn';
-import ModalStartGame from './components/ModalStartGame';
-import { GAME_MODE, TURNS } from './constants';
+import ModalAboutMe from './components/ModalAboutMe';
 import { useState } from 'react';
+import { TURNS } from './constants';
 
 function App() {
   const { board, turn, winner, updateBoard, resetGame } = useTicTacToe();
-  const [selectGame, setSelectGame] = useState(GAME_MODE.PLAY);
   const [showModal, setShowModal] = useState(true);
 
-  const handleStartGame = (gameMode) => {
-    setSelectGame(gameMode);
-    setShowModal(false);
+  const handleShowModal = () => {
+    setShowModal(!showModal);
   };
 
   return (
     <main className="board">
       <h1>Tic tac toe</h1>
-      {showModal ? (
-        <ModalStartGame
-          selectGame={selectGame}
-          newSelectGame={handleStartGame}
-        />
-      ) : (
-        <>
-          <button onClick={resetGame}>Reset Game</button>
+      <div>
+        <button onClick={resetGame}>Reset Game</button>
+        <button onClick={handleShowModal}>Acerca de mi</button>
+      </div>
+          {showModal && <ModalAboutMe showModal={handleShowModal}/>}
           <section className="game">
             {board.map((value, index) => (
               <div className="cell" key={index}>
@@ -43,8 +38,6 @@ function App() {
           ) : (
             <SectionTurn TURNS={TURNS} turn={turn} />
           )}
-        </>
-      )}
     </main>
   );
 }

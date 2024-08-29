@@ -1,6 +1,5 @@
-import { GAME_MODE } from "../constants";
 
-const ModalStartGame = ({selectGame, newSelectGame}) => {
+const ModalAboutMe = ({showModal}) => {
 
   return (
     <div className="container">
@@ -15,14 +14,11 @@ const ModalStartGame = ({selectGame, newSelectGame}) => {
                 Hice este juego con la ayuda del curso de React de: <a style={{cursor: "pointer", color : "#09f"}}>@Midudev</a>
             </p>
         </div>
+        <button onClick={showModal}>Cerrar</button>
         </div>
       </div>
-        <div className="button_container">
-          <button onClick={() => newSelectGame(GAME_MODE.PLAY)}>Jugar local</button>
-          {console.log(selectGame)}
-        </div>
     </div>
   )
 }
 
-export default ModalStartGame
+export default ModalAboutMe
